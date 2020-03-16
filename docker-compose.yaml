@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    ports:
+      - '80:80'
+  redis:
+    build:
+      context: .
+      dockerfile: Dockerfile-redis
+    ports:
+      - '6379:6379'
+  liferay1:
+    build:
+      context: .
+      dockerfile: Dockerfile-liferay
+    ports:
+      - "7080:8080"
+      - "11312:11311"
+    volumes:
+      - ./liferay/base:/etc/opt/liferay
+      - ./liferay/data/document_library:/opt/liferay/data/document_library
+      - ./liferay/deploy:/opt/liferay/deploy
+
+  liferay2:
+    build:
+      context: .
+      dockerfile: Dockerfile-liferay
+    ports:
+      - "6080:8080"
+      - "11311:11311"
+    volumes:
+      - ./liferay/base:/etc/opt/liferay
+      - ./liferay/data/document_library:/opt/liferay/data/document_library
+      - ./liferay/deploy:/opt/liferay/deploy
